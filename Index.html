@@ -5,16 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Registration</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="main.js" defer></script>
+    <script src="index.js" defer></script>
   </head>
   <body>
-    <h1>Registrera Dig Här!</h1>
-    <form id="registrationForm">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <button type="submit">Registrera</button>
-    </form>
+    <h1>Register or Log In</h1>
+    <div id="choiceContainer">
+      <button id="registerButton">Register</button>
+      <button id="loginButton">Log In</button>
+    </div>
+
+    <div id="registrationContainer" class="hidden">
+      <h2>Register Here!</h2>
+      <div class="login-container">
+        <form id="registrationForm">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="loginContainer" class="hidden">
+      <h2>Log In Here!</h2>
+      <div class="login-container">
+        <form id="loginForm">
+          <label for="loginUsername">Username:</label>
+          <input type="text" id="loginUsername" name="loginUsername" required />
+          <label for="loginPassword">Password:</label>
+          <input
+            type="password"
+            id="loginPassword"
+            name="loginPassword"
+            required
+          />
+          <button type="submit">Log In</button>
+        </form>
+      </div>
+    </div>
+
+    <p id="welcomeMessage"></p>
+    <button id="logoutButton" class="hidden">Log out</button>
   </body>
 </html>

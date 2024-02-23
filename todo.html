@@ -7,5 +7,34 @@
     <link rel="stylesheet" href="style.css" />
     <title>To Do</title>
   </head>
-  <body></body>
+  <body>
+    <div class="wrapper">
+      <h1>To Do</h1>
+      <label for="activity">Activity</label>
+      <input
+        type="text"
+        value=""
+        id="activity"
+        placeholder="What To Do"
+        required
+      />
+      <label for="description">Description</label>
+      <input type="text" value="" id="description" placeholder="Description" />
+      <label for="expirationDate">Expiration Date</label>
+      <input type="date" value="" id="expirationDate" />
+      <select name="" id="category">
+        <option value="" selected hidden disabled>Select Category</option>
+        <option value="work">Work</option>
+        <option value="school">School</option>
+        <option value="health">Health</option>
+        <option value="household">Household</option>
+        <option value="economy">Economy</option>
+        <option value="recreation">Recreation</option>
+      </select>
+      <label for="complete">Completed</label>
+      <input type="checkbox" name="status" id="complete" />
+      <button id="addTodoBtn">Add to List</button>
+      <div id="container"></div>
+    </div>
+  </body>
 </html>

@@ -4,7 +4,7 @@ let container = document.querySelector("#container");
 //To do- lista(ul)
 let todoUl = document.querySelector("#todoUl");
 //Array med to do's
-let todoList = [];
+let todoList = JSON.parse(localStorage.getItem("todoList")) || [];
 //Knapp för att lägga till to do
 let addTodoBtn = document.querySelector("#addTodoBtn");
 
@@ -13,7 +13,6 @@ let todoId = 0;
 
 //Funktion för att lägga till to do
 let addTodoFunction = () => {
-  container.innerHTML = ``;
   //Values från inputs
   let activity = document.querySelector("#activity")?.value;
   let description = document.querySelector("#description")?.value;
@@ -30,14 +29,18 @@ let addTodoFunction = () => {
   };
   //Lägg till objekt med input values i todo lista
   todoList.push(valuesObject);
-  //Lägg till todo lista i local storage
-  localStorage.setItem("todoList", `${todoList}`);
+  //Lägg till filtrerad todo lista i local storage
+  let filteredTodo = JSON.stringify(todoList.filter((item) => item !== true));
+  localStorage.setItem("todoList", `${filteredTodo}`);
+  //+1 på todoId
   todoId++;
+};
 
+//Funktion för att skriva ut todo lista
+let renderTodoList = () => {
+  container.innerHTML = "";
   let ul = document.createElement("ul");
   container.append(ul);
-
-  let storedTodo = localStorage.getItem("todoList");
 
   todoList.forEach((todo, index) => {
     let li = document.createElement("li");
@@ -46,16 +49,23 @@ let addTodoFunction = () => {
     ul.append(li);
 
     let deleteBtn = document.createElement("button");
-    deleteBtn.innerText = `Remove Item`;
+    deleteBtn.innerText = "Remove Item";
     li.append(deleteBtn);
+
+    let checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    li.append(checkbox);
     deleteBtn.addEventListener("click", () => {
-      delete todoList[index];
-      li.remove();
+      todoList.splice(index, 1);
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+      renderTodoList();
     });
   });
-  console.log(storedTodo);
 };
 
 addTodoBtn.addEventListener("click", () => {
   addTodoFunction();
+  renderTodoList();
 });
+
+renderTodoList();

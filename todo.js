@@ -7,6 +7,8 @@ let todoUl = document.querySelector("#todoUl");
 let todoList = JSON.parse(localStorage.getItem("todoList")) || [];
 //Knapp för att lägga till to do
 let addTodoBtn = document.querySelector("#addTodoBtn");
+//Knapp för att skriva ut listan
+let renderListButton = document.querySelector("#renderListButton");
 
 let todoId = 0;
 //Funktioner
@@ -67,5 +69,7 @@ addTodoBtn.addEventListener("click", () => {
   addTodoFunction();
   renderTodoList();
 });
-
+renderListButton.addEventListener("click", () => {
+  renderTodoList();
+});
 renderTodoList();

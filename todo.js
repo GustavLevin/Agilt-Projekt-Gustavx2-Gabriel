@@ -1,17 +1,12 @@
 //Variabler
-
 let container = document.querySelector("#container");
-//To do- lista(ul)
-let todoUl = document.querySelector("#todoUl");
-//Array med to do's
+let completedContainer = document.querySelector("#completedContainer"); // Container for completed tasks
 let todoList = JSON.parse(localStorage.getItem("todoList")) || [];
-//Knapp för att lägga till to do
+let completedList = JSON.parse(localStorage.getItem("completedList")) || [];
 let addTodoBtn = document.querySelector("#addTodoBtn");
-//Knapp för att skriva ut listan
 let renderListButton = document.querySelector("#renderListButton");
 
 let todoId = 0;
-//Funktioner
 
 //Funktion för att lägga till to do
 let addTodoFunction = () => {
@@ -38,6 +33,22 @@ let addTodoFunction = () => {
   todoId++;
 };
 
+//Funktion för att markera en to do som komplett
+let completeTodoItem = (todo) => {
+  // Flytta från aktiv lista till avslutad lista
+  let index = todoList.findIndex(item => item.id === todo.id);
+  todoList.splice(index, 1);
+  completedList.push(todo);
+
+  // Uppdatera local storage
+  localStorage.setItem("todoList", JSON.stringify(todoList));
+  localStorage.setItem("completedList", JSON.stringify(completedList));
+
+  // Uppdatera UI
+  renderTodoList();
+  renderCompletedList();
+};
+
 //Funktion för att skriva ut todo lista
 let renderTodoList = () => {
   container.innerHTML = "";
@@ -50,18 +61,36 @@ let renderTodoList = () => {
     li.dataset.id = todo.id;
     ul.append(li);
 
+    let completeBtn = document.createElement("button");
+    completeBtn.innerText = "Completed"
+    li.append(completeBtn);
+
+    completeBtn.addEventListener("click", () => {
+      completeTodoItem(todo);
+    });
+
     let deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Remove Item";
     li.append(deleteBtn);
-
-    let checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    li.append(checkbox);
+    
     deleteBtn.addEventListener("click", () => {
       todoList.splice(index, 1);
       localStorage.setItem("todoList", JSON.stringify(todoList));
       renderTodoList();
     });
+  });
+};
+
+// Funktion för att skriva ut den avklarade listan
+let renderCompletedList = () => {
+  completedContainer.innerHTML = "";
+  let ul = document.createElement("ul");
+  completedContainer.append(ul);
+
+  completedList.forEach((todo) => {
+    let li = document.createElement("li");
+    li.innerText = `${todo.activity} ${todo.description} ${todo.expirationDate} ${todo.category}`;
+    ul.appendChild(li);
   });
 };
 
@@ -71,5 +100,7 @@ addTodoBtn.addEventListener("click", () => {
 });
 renderListButton.addEventListener("click", () => {
   renderTodoList();
+  renderCompletedList(); 
 });
 renderTodoList();
+renderCompletedList(); 

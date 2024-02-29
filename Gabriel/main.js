@@ -34,7 +34,6 @@ window.addEventListener("load", () => {
 
   DisplayHabits();
 });
-
 function DisplayHabits() {
   const habitList = document.querySelector("#habit-list");
   habitList.innerHTML = "";
@@ -58,13 +57,14 @@ function DisplayHabits() {
     input.type = "checkbox";
     input.checked = habit.done;
     span.classList.add("bubble");
-    if (habit.category == "medium") {
-      span.classList.add("medium");
+    if (habit.category == "priority1") {
+      span.classList.add("priority1");
     }
-    if (habit.category == "high") {
-      span.classList.add("high");
-    } else {
-      span.classList.add("low");
+    if (habit.category == "priority2") {
+      span.classList.add("priority2");
+    }
+    if (habit.category == "priority3") {
+      span.classList.add("priority3");
     }
     content.classList.add("habit-content");
     counter.classList.add("habit-content");
@@ -152,14 +152,11 @@ function DisplayHabits() {
 
 const habitList = document.querySelector("#habit-list");
 
-const sort_priority_button = document.querySelector(
-  ".sort-options , sort-priority"
-);
-const sort_streak_button = document.querySelector(
-  ".sort-options , sort-streak"
-);
+const sort_priority_button = document.querySelector(".sort-priority");
+const sort_streak_button = document.querySelector(".sort-streak");
 
 let desc = false;
+
 sort_priority_button.addEventListener("click", () => {
   habits.sort((a, b) => {
     if (a.category > b.category) {

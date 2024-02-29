@@ -133,11 +133,11 @@ input[type="checkbox"] {
   box-shadow: var(--low-glow);
 }
 
-.bubble.medium {
+.bubble.priority2 {
   border-color: var(--medium);
   box-shadow: var(--medium-glow);
 }
-.bubble.high {
+.bubble.priority3 {
   border-color: var(--high);
   box-shadow: var(--high-glow);
 }
@@ -154,11 +154,11 @@ input[type="checkbox"] {
   transition: 0.2s ease-in-out;
 }
 
-.bubble.medium::after {
+.bubble.priority2::after {
   background-color: var(--medium);
   box-shadow: var(--medium-glow);
 }
-.bubble.high::after {
+.bubble.priority3::after {
   background-color: var(--high);
   box-shadow: var(--high-glow);
 }

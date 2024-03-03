@@ -1,19 +1,22 @@
 window.addEventListener("load", () => {
+  // variabel är här, här skapas local storage och global variabel
   habits = JSON.parse(localStorage.getItem("habits")) || [];
   const nameInput = document.querySelector("#name");
   const newHabitForm = document.querySelector("#new-habit-form");
 
   const username = localStorage.getItem("username") || "";
 
+  // kod till namn
   nameInput.value = username;
 
   nameInput.addEventListener("change", (e) => {
     localStorage.setItem("username", e.target.value);
   });
-
+  // sumbit / create habit knapp lite kod och local storage
   newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    // här är alla värden som ska sparas i local storage
     const habit = {
       content: e.target.elements.content.value,
       category: e.target.elements.category.value,
@@ -34,6 +37,7 @@ window.addEventListener("load", () => {
 
   DisplayHabits();
 });
+// här är en funktion som visar habiten och skapar en div för varje habit
 function DisplayHabits() {
   const habitList = document.querySelector("#habit-list");
   habitList.innerHTML = "";
@@ -41,7 +45,7 @@ function DisplayHabits() {
   habits.forEach((habit) => {
     const habitItem = document.createElement("div");
     habitItem.classList.add("habit-item");
-
+    // här skapas alla element som ska finnas i varje habit
     const label = document.createElement("label");
     const input = document.createElement("input");
     const span = document.createElement("span");
@@ -54,6 +58,7 @@ function DisplayHabits() {
     const decreseButton = document.createElement("button");
     const resetButton = document.createElement("button");
 
+    // här läggs alla klasser och värden till varje element dvs färgen
     input.type = "checkbox";
     input.checked = habit.done;
     span.classList.add("bubble");
@@ -66,6 +71,8 @@ function DisplayHabits() {
     if (habit.category == "priority3") {
       span.classList.add("priority3");
     }
+
+    // här läggs klasser till varje element ( CSS)
     content.classList.add("habit-content");
     counter.classList.add("habit-content");
     actions.classList.add("actions");
@@ -75,6 +82,7 @@ function DisplayHabits() {
     decreseButton.classList.add("counter-button");
     resetButton.classList.add("counter-button");
 
+    // här är texten på knapparna, content och streak
     content.innerHTML = `<input type="text" value="${habit.content}" readonly>`;
     counter.innerHTML = `<input type="text" value="${habit.streak}" readonly>`;
     edit.innerHTML = "Edit";
@@ -83,6 +91,7 @@ function DisplayHabits() {
     decreseButton.innerHTML = "Decrease";
     resetButton.innerHTML = "Reset";
 
+    // här läggs alla element till varje habit ( klistrar in dem)
     label.appendChild(input);
     label.appendChild(span);
 
@@ -99,6 +108,7 @@ function DisplayHabits() {
 
     habitList.appendChild(habitItem);
 
+    // här är done till checkboxen till varje habit och om den är true så blir habiten grå
     if (habit.done) {
       habitItem.classList.add("done");
     }
@@ -115,7 +125,7 @@ function DisplayHabits() {
 
       DisplayHabits();
     });
-
+    // här är eventlisteners till knapparna på spalten.
     edit.addEventListener("click", (e) => {
       const input = content.querySelector("input");
       input.removeAttribute("readonly");
@@ -149,12 +159,14 @@ function DisplayHabits() {
     });
   });
 }
+// här avslutas funktionen till displayhabits
 
+// här är en funktion som sorterar habiten efter kategori och streak
 const habitList = document.querySelector("#habit-list");
 
 const sort_priority_button = document.querySelector(".sort-priority");
 const sort_streak_button = document.querySelector(".sort-streak");
-
+// descending = boolean, vi använder denna boolean för att sortera habits stigande eller fallande.
 let desc = false;
 
 sort_priority_button.addEventListener("click", () => {
@@ -182,4 +194,27 @@ sort_streak_button.addEventListener("click", () => {
   });
   desc = !desc;
   DisplayHabits();
+});
+
+// här är en funktion som filtrerar habiten efter kategori och färg. i en dropdown meny.
+const filterHabits = document.querySelector(".filter-habits");
+filterHabits.addEventListener("change", (e) => {
+  const category = e.target.value;
+  const habitItems = document.querySelectorAll(".habit-item");
+
+  habitItems.forEach((habitItem) => {
+    if (category === "all") {
+      habitItem.style.display = "flex";
+      return;
+    }
+
+    const habitCategory =
+      habitItem.querySelector("input").nextElementSibling.classList[1];
+
+    if (habitCategory === category) {
+      habitItem.style.display = "flex";
+    } else {
+      habitItem.style.display = "none";
+    }
+  });
 });

@@ -28,6 +28,7 @@ let addTodoFunction = () => {
     expirationDate: `${expirationDate}`,
     category: `${category}`,
     id: `${todoId}`,
+    isCompleted: false,
   };
   //Lägg till objekt med input values i todo lista
   todoList.push(valuesObject);
@@ -50,19 +51,24 @@ let renderTodoList = () => {
     li.dataset.id = todo.id;
     ul.append(li);
 
+    let completedBtn = document.createElement("button");
+    completedBtn.innerText = "Completed";
+
     let deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Remove Item";
-    li.append(deleteBtn);
+    li.append(deleteBtn, completedBtn);
 
-    let checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    li.append(checkbox);
+    completedBtn.addEventListener("click", () => {
+      todo.isCompleted = true;
+    });
+
     deleteBtn.addEventListener("click", () => {
       todoList.splice(index, 1);
       localStorage.setItem("todoList", JSON.stringify(todoList));
       renderTodoList();
     });
   });
+  console.log(todoList);
 };
 
 addTodoBtn.addEventListener("click", () => {

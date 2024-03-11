@@ -1,8 +1,10 @@
 //Variabler
 let container = document.querySelector("#container");
 let completedContainer = document.querySelector("#completedContainer"); // Container for completed tasks
-let todoList = JSON.parse(localStorage.getItem("todoList")) || [];
-let completedList = JSON.parse(localStorage.getItem("completedList")) || [];
+let userId = localStorage.getItem("userId") || crypto.randomUUID();
+localStorage.setItem("userId", userId);
+let todoList = JSON.parse(localStorage.getItem(`todoList_${userId}`)) || [];
+let completedList = JSON.parse(localStorage.getItem(`completedList_${userId}`)) || [];
 let addTodoBtn = document.querySelector("#addTodoBtn");
 let renderListButton = document.querySelector("#renderListButton");
 
@@ -28,7 +30,7 @@ let addTodoFunction = () => {
   todoList.push(valuesObject);
   //Lägg till filtrerad todo lista i local storage
   let filteredTodo = JSON.stringify(todoList.filter((item) => item !== true));
-  localStorage.setItem("todoList", `${filteredTodo}`);
+  localStorage.setItem(`todoList_${userId}`, `${filteredTodo}`);
   //+1 på todoId
   todoId++;
 };
@@ -41,8 +43,8 @@ let completeTodoItem = (todo) => {
   completedList.push(todo);
 
   // Uppdatera local storage
-  localStorage.setItem("todoList", JSON.stringify(todoList));
-  localStorage.setItem("completedList", JSON.stringify(completedList));
+  localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
+  localStorage.setItem(`completedList_${userId}`, JSON.stringify(completedList));
 
   // Uppdatera UI
   renderTodoList();
@@ -75,7 +77,7 @@ let renderTodoList = () => {
     
     deleteBtn.addEventListener("click", () => {
       todoList.splice(index, 1);
-      localStorage.setItem("todoList", JSON.stringify(todoList));
+      localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
       renderTodoList();
     });
   });

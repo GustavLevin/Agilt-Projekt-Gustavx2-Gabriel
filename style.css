@@ -1,9 +1,86 @@
+
 .hidden {
-    display: none;
-  }
-  
-  #completedContainer {
-    height: 300px;
-    width: 100%;
-    background-color: aqua;
-  }
+  display: none;
+}
+
+#completedContainer {
+  height: 300px;
+  width: 100%;
+  background-color: aqua;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  height: 100px;
+  background-color: grey;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+#choiceContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#choiceContainer button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.login-container {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container label {
+  margin-bottom: 5px;
+}
+
+.login-container input {
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.login-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+#logoutButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#welcomeMessage {
+  text-align: center;
+  margin-top: 20px;
+}
+
+p {
+  margin-top: 20px;
+}
+

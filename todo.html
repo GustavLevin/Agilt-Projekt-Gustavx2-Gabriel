@@ -3,55 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Young+Serif&display=swap"
+      rel="stylesheet"
+    />
     <script src="todo.js" defer></script>
     <link rel="stylesheet" href="style.css" />
     <title>To Do</title>
   </head>
-  <body>
-    <div class="wrapper">
-      <h1>To Do</h1>
-      <label for="activity">Activity</label>
-      <input
-        type="text"
-        value=""
-        id="activity"
-        placeholder="What To Do"
-        required
-      />
-      <label for="description">Description</label>
-      <input type="text" value="" id="description" placeholder="Description" />
-      <label for="expirationDate">Expiration Date</label>
-      <input type="date" value="" id="expirationDate" />
-      <select name="" id="category">
-        <option value="" selected hidden disabled>Select Category</option>
-        <option value="work">Work</option>
-        <option value="school">School</option>
-        <option value="health">Health</option>
-        <option value="household">Household</option>
-        <option value="economy">Economy</option>
-        <option value="recreation">Recreation</option>
-      </select>
-      <button id="addTodoBtn">Add to List</button> <br /><br />
-      <select name="" id="filterStatus">
-        <option value="" selected hidden disabled>Filter by status</option>
-        <option value="willDo">Will Do</option>
-        <option value="doing">Doing</option>
-        <option value="done">Done</option>
-      </select>
-      <label for="work">Work</label>
-      <input type="checkbox" value="work" id="work" />
-      <label for="school">School</label>
-      <input type="checkbox" value="" id="school" />
-      <label for="health">Health</label>
-      <input type="checkbox" value="health" id="health" />
-      <label for="household">Household</label>
-      <input type="checkbox" value="household" id="household" />
-      <label for="economy">Economy</label>
-      <input type="checkbox" value="economy" id="economy" />
-      <label for="recreation">Recreation</label>
-      <input type="checkbox" value="recreation" id="recreation" />
-      <button id="renderListButton">Show List</button>
-      <div id="container"></div>
+  <body class="todoBody">
+    <div class="viewer">
+      <div class="wrapper">
+        <h1>To Do</h1>
+        <form action="">
+          <div class="text-inputs">
+            <label for="activity">Activity</label>
+            <input
+              type="text"
+              value=""
+              id="activity"
+              placeholder="What To Do"
+              required
+            />
+            <label for="description">Description</label>
+            <input
+              type="text"
+              value=""
+              id="description"
+              placeholder="How to do it"
+            />
+          </div>
+          <div class="choice-inputs">
+            <select name="" id="category">
+              <option value="" selected hidden disabled>Select Category</option>
+              <option value="work">Work</option>
+              <option value="school">School</option>
+              <option value="health">Health</option>
+              <option value="household">Household</option>
+              <option value="economy">Economy</option>
+              <option value="recreation">Recreation</option>
+            </select>
+            <div class="exp-date">
+              <label for="expirationDate">Expiration Date</label>
+              <input type="date" value="" id="expirationDate" />
+            </div>
+            <select name="" id="time-to-complete">
+              <option value="" selected hidden disabled>
+                Time to complete
+              </option>
+              <option value="0">Less than 1h</option>
+              <option value="1h">1h</option>
+              <option value="2h">2h</option>
+              <option value="3h">3h</option>
+              <option value="4h">4h+</option>
+            </select>
+          </div>
+          <button id="addTodoBtn">Add to List</button>
+        </form>
+        <div class="filter-inputs">
+          <select name="" id="filter-status">
+            <option value="" selected hidden disabled>Filter by status</option>
+            <option value="">All</option>
+            <option value="false">Unfinished</option>
+            <option value="true">Completed</option>
+          </select>
+          <input type="checkbox" value="work" id="work" />
+          <label for="work">Work</label>
+          <input type="checkbox" value="school" id="school" />
+          <label for="school">School</label>
+          <input type="checkbox" value="health" id="health" />
+          <label for="health">Health</label>
+          <input type="checkbox" value="household" id="household" />
+          <label for="household">Household</label>
+          <input type="checkbox" value="economy" id="economy" />
+          <label for="economy">Economy</label>
+          <input type="checkbox" value="recreation" id="recreation" />
+          <label for="recreation">Recreation</label>
+        </div>
+        <button id="renderListButton">Refresh List</button>
+        <button id="sort-deadline">Sort by deadline</button>
+        <button id="sort-time">Sort by time to complete</button>
+        <div id="container"></div>
+      </div>
     </div>
   </body>
 </html>

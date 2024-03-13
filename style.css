@@ -1,7 +1,7 @@
-
 .hidden {
   display: none;
 }
+
 
 #completedContainer {
   height: 300px;
@@ -47,9 +47,11 @@ h2 {
 }
 
 .login-container form {
+
   display: flex;
   flex-direction: column;
 }
+
 
 .login-container label {
   margin-bottom: 5px;
@@ -83,4 +85,3 @@ h2 {
 p {
   margin-top: 20px;
 }
-

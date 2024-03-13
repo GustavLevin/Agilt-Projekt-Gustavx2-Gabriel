@@ -1,12 +1,19 @@
-window.addEventListener("load", () => {
+
   const nameInput = document.querySelector("#name");
   const newHabitForm = document.querySelector("#new-habit-form");
 
   const username = localStorage.getItem("username") || "";
 
+  let userId = localStorage.getItem("userId") || crypto.randomUUID();
+  localStorage.setItem("userId", userId);
+  habits = JSON.parse(localStorage.getItem(`habits_${userId}`)) || [];
+window.addEventListener("load", () => {
+
+  
+  // habits = JSON.parse(localStorage.getItem(`habits_${userId}`)) || [];
+
   // kod till namn
   nameInput.value = username;
-
   nameInput.addEventListener("change", (e) => {
     localStorage.setItem("username", e.target.value);
   });
@@ -14,7 +21,6 @@ window.addEventListener("load", () => {
   newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // här är alla värden som ska sparas i local storage
     const habit = {
       content: e.target.elements.content.value,
       category: e.target.elements.category.value,
@@ -23,11 +29,9 @@ window.addEventListener("load", () => {
       streak: 0,
     };
     // global variable
-
     habits.push(habit);
 
-    // Store the updated habits list in local storage for the user
-    localStorage.setItem(habitsKey, JSON.stringify(habits));
+    localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
 
     // Reset the form
     e.target.reset();
@@ -37,21 +41,14 @@ window.addEventListener("load", () => {
 
   DisplayHabits();
 });
-
 function DisplayHabits() {
-  // Retrieve user-specific habits list from local storage
-  let userId = localStorage.getItem("userId") || crypto.randomUUID();
-  let habitsKey = `habits_${userId}`;
-
-  habits = JSON.parse(localStorage.getItem(habitsKey)) || [];
-
   const habitList = document.querySelector("#habit-list");
   habitList.innerHTML = "";
 
   habits.forEach((habit) => {
     const habitItem = document.createElement("div");
     habitItem.classList.add("habit-item");
-    // här skapas alla element som ska finnas i varje habit
+
     const label = document.createElement("label");
     const input = document.createElement("input");
     const span = document.createElement("span");
@@ -64,7 +61,6 @@ function DisplayHabits() {
     const decreseButton = document.createElement("button");
     const resetButton = document.createElement("button");
 
-    // här läggs alla klasser och värden till varje element dvs färgen
     input.type = "checkbox";
     input.checked = habit.done;
     span.classList.add("bubble");
@@ -121,7 +117,7 @@ function DisplayHabits() {
 
     input.addEventListener("change", (e) => {
       habit.done = e.target.checked;
-      localStorage.setItem(habitsKey, JSON.stringify(habits));
+      localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
 
       if (habit.done) {
         habitItem.classList.add("done");
@@ -139,28 +135,28 @@ function DisplayHabits() {
       input.addEventListener("blur", (e) => {
         input.setAttribute("readonly", true);
         habit.content = e.target.value;
-        localStorage.setItem(habitsKey, JSON.stringify(habits));
+        localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
         DisplayHabits();
       });
     });
     deleteButton.addEventListener("click", (e) => {
       habits = habits.filter((t) => t != habit);
-      localStorage.setItem(habitsKey, JSON.stringify(habits));
+      localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
       DisplayHabits();
     });
     increaseButton.addEventListener("click", (e) => {
       habit.streak++;
-      localStorage.setItem(habitsKey, JSON.stringify(habits));
+      localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
       DisplayHabits();
     });
     decreseButton.addEventListener("click", (e) => {
       habit.streak--;
-      localStorage.setItem(habitsKey, JSON.stringify(habits));
+      localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
       DisplayHabits();
     });
     resetButton.addEventListener("click", (e) => {
       habit.streak = 0;
-      localStorage.setItem(habitsKey, JSON.stringify(habits));
+      localStorage.setItem(`habits_${userId}`, JSON.stringify(habits));
       DisplayHabits();
     });
   });
@@ -188,7 +184,6 @@ sort_priority_button.addEventListener("click", () => {
   desc = !desc;
   DisplayHabits();
 });
-
 sort_streak_button.addEventListener("click", () => {
   habits.sort((a, b) => {
     if (a.streak > b.streak) {
@@ -202,5 +197,3 @@ sort_streak_button.addEventListener("click", () => {
   desc = !desc;
   DisplayHabits();
 });
-
-

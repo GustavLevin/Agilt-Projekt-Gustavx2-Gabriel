@@ -1,5 +1,9 @@
 window.addEventListener("load", () => {
-  habits = JSON.parse(localStorage.getItem("habits")) || [];
+  // Get user-specific habits if available, otherwise initialize as empty array
+  let userId = localStorage.getItem("userId") || crypto.randomUUID();
+  let habitsKey = `habits_${userId}`;
+  habits = JSON.parse(localStorage.getItem(habitsKey)) || [];
+
   const nameInput = document.querySelector("#name");
   const newHabitForm = document.querySelector("#new-habit-form");
 
@@ -22,9 +26,11 @@ window.addEventListener("load", () => {
       streak: 0,
     };
     // global variable
+
     habits.push(habit);
 
-    localStorage.setItem("habits", JSON.stringify(habits));
+    // Store the updated habits list in local storage for the user
+    localStorage.setItem(habitsKey, JSON.stringify(habits));
 
     // Reset the form
     e.target.reset();
@@ -34,7 +40,14 @@ window.addEventListener("load", () => {
 
   DisplayHabits();
 });
+
 function DisplayHabits() {
+  // Retrieve user-specific habits list from local storage
+  let userId = localStorage.getItem("userId") || crypto.randomUUID();
+  let habitsKey = `habits_${userId}`;
+
+  habits = JSON.parse(localStorage.getItem(habitsKey)) || [];
+
   const habitList = document.querySelector("#habit-list");
   habitList.innerHTML = "";
 
@@ -105,7 +118,7 @@ function DisplayHabits() {
 
     input.addEventListener("change", (e) => {
       habit.done = e.target.checked;
-      localStorage.setItem("habits", JSON.stringify(habits));
+      localStorage.setItem(habitsKey, JSON.stringify(habits));
 
       if (habit.done) {
         habitItem.classList.add("done");
@@ -123,28 +136,28 @@ function DisplayHabits() {
       input.addEventListener("blur", (e) => {
         input.setAttribute("readonly", true);
         habit.content = e.target.value;
-        localStorage.setItem("habits", JSON.stringify(habits));
+        localStorage.setItem(habitsKey, JSON.stringify(habits));
         DisplayHabits();
       });
     });
     deleteButton.addEventListener("click", (e) => {
       habits = habits.filter((t) => t != habit);
-      localStorage.setItem("habits", JSON.stringify(habits));
+      localStorage.setItem(habitsKey, JSON.stringify(habits));
       DisplayHabits();
     });
     increaseButton.addEventListener("click", (e) => {
       habit.streak++;
-      localStorage.setItem("habits", JSON.stringify(habits));
+      localStorage.setItem(habitsKey, JSON.stringify(habits));
       DisplayHabits();
     });
     decreseButton.addEventListener("click", (e) => {
       habit.streak--;
-      localStorage.setItem("habits", JSON.stringify(habits));
+      localStorage.setItem(habitsKey, JSON.stringify(habits));
       DisplayHabits();
     });
     resetButton.addEventListener("click", (e) => {
       habit.streak = 0;
-      localStorage.setItem("habits", JSON.stringify(habits));
+      localStorage.setItem(habitsKey, JSON.stringify(habits));
       DisplayHabits();
     });
   });
@@ -170,6 +183,7 @@ sort_priority_button.addEventListener("click", () => {
   desc = !desc;
   DisplayHabits();
 });
+
 sort_streak_button.addEventListener("click", () => {
   habits.sort((a, b) => {
     if (a.streak > b.streak) {
@@ -183,3 +197,4 @@ sort_streak_button.addEventListener("click", () => {
   desc = !desc;
   DisplayHabits();
 });
+

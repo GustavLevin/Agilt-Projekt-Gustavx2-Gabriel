@@ -87,7 +87,18 @@ loginForm.addEventListener('submit', async (event) => {
         localStorage.setItem('userId', userId); 
         window.location.href = 'todo.html'; 
     });
+    let habitsButton = document.createElement('button');
+    habitsButton.textContent = 'Go to Todo List';
+    habitsButton.addEventListener('click', () => {
+        localStorage.setItem('userId', userId); 
+        window.location.href = 'Gabriel/index-3.html'; 
+    });
     document.body.appendChild(todoListButton);
+    document.body.appendChild(habitsButton);
+    registerButton.classList.add('hidden');
+    loginButton.classList.add('hidden');
+    registrationContainer.classList.add('hidden');
+    loginContainer.classList.add('hidden');
   } else {
     alert('Incorrect username or password.');
   }

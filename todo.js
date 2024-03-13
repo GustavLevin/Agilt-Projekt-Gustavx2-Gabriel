@@ -4,7 +4,9 @@ const container = document.querySelector("#container");
 //To do- lista(ul)
 const todoUl = document.querySelector("#todoUl");
 //Array med to do's
-let todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+let userId = localStorage.getItem("userId") || crypto.randomUUID();
+localStorage.setItem("userId", userId);
+let todoList = JSON.parse(localStorage.getItem(`todoList_${userId}`)) || [];
 //Knapp för att lägga till todo
 const addTodoBtn = document.querySelector("#addTodoBtn");
 //Knapp för att skriva ut listan
@@ -15,6 +17,9 @@ const sortByDeadlineButton = document.querySelector("#sort-deadline");
 const sortByTimeButton = document.querySelector("#sort-time");
 //Riktning för sortering(ascending/descending)
 let descending = true;
+
+
+
 
 //Funktioner
 
@@ -47,7 +52,7 @@ const addTodoFunction = () => {
   //Lägg till objekt med input values i todo lista
   todoList.push(todo);
   //Uppdatera localStorage
-  localStorage.setItem("todoList", JSON.stringify(todoList));
+  localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
 };
 
 //Funktion för att filtrera todo lista
@@ -154,7 +159,7 @@ const saveEditedValues = (todo) => {
   todo.timeToComplete = timeToCompleteInput;
 
   //Uppdaterar localStorage
-  localStorage.setItem("todoList", JSON.stringify(todoList));
+  localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
 };
 
 //Funktion för att skriva ut todo's
@@ -235,13 +240,13 @@ const renderTodoList = (filters) => {
         li.style.backgroundColor = "green";
       }
 
-      localStorage.setItem("todoList", JSON.stringify(todoList));
+      localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
     });
 
     //Knapp för att ta bort todo
     deleteBtn.addEventListener("click", () => {
       todoList.splice(index, 1);
-      localStorage.setItem("todoList", JSON.stringify(todoList));
+      localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
       renderTodoList();
     });
 

@@ -44,8 +44,13 @@
           <h4>Pick a Priority</h4>
           <div class="options">
             <label>
-              <input type="radio" name="category" id="category1" value="low" />
-              <span class="bubble low"></span>
+              <input
+                type="radio"
+                name="category"
+                id="category1"
+                value="priority1"
+              />
+              <span class="bubble priority1"></span>
               <div>Low</div>
             </label>
             <label>
@@ -53,14 +58,19 @@
                 type="radio"
                 name="category"
                 id="category2"
-                value="medium"
+                value="priority2"
               />
-              <span class="bubble medium"></span>
+              <span class="bubble priority2"></span>
               <div>Medium</div>
             </label>
             <label>
-              <input type="radio" name="category" id="category3" value="high" />
-              <span class="bubble high"></span>
+              <input
+                type="radio"
+                name="category"
+                id="category3"
+                value="priority3"
+              />
+              <span class="bubble priority3"></span>
               <div>High</div>
             </label>
           </div>
@@ -69,10 +79,18 @@
         </form>
       </section>
       <!-- End of New Habit -->
+      <!-- Sort Options -->
       <section class="sort-options">
         <button class="sort-priority">Sort by priority</button>
         <button class="sort-streak">Sort by streak</button>
+        <select class="filter-habits">
+          <option value="all">All</option>
+          <option value="priority1">Low</option>
+          <option value="priority2">Medium</option>
+          <option value="priority3">High</option>
+        </select>
       </section>
+      <!-- End of Sort Options -->
       <!-- Habit List -->
       <section class="habit-list">
         <h3 class="title-habit-list">Habit List</h3>

@@ -1,14 +1,10 @@
-
-
+// Importera funktionen getData för att hämta data från en URL
 let getData = async (URL) => {
     let response = await fetch(URL);
     let json = await response.json();
     return json;
  }
  
-
-
-
 let registerButton = document.getElementById('registerButton');
 let loginButton = document.getElementById('loginButton');
 let choiceContainer = document.getElementById('choiceContainer');
@@ -20,15 +16,19 @@ let loginForm = document.getElementById('loginForm');
 let registrationForm = document.getElementById('registrationForm');
 
 registerButton.addEventListener('click', () => {
+  // Döljer alternativen och visar registeringsformuläret
   choiceContainer.classList.add('hidden');
   registrationContainer.classList.remove('hidden');
+  loginContainer.classList.add('hidden');
 });
 
 loginButton.addEventListener('click', () => {
   choiceContainer.classList.add('hidden');
   loginContainer.classList.remove('hidden');
+  registrationContainer.classList.add('hidden');
 });
 
+// Hämta användaruppgifter från localStorage eller skapa en tom lista om det inte finns några
 let users = JSON.parse(localStorage.getItem('users')) || [];
 
 
@@ -44,12 +44,15 @@ registrationForm.addEventListener('submit', (event) => {
       alert('Username already exists. Please choose another one.');
       return;
     }
-
-    users.push({ username, password });
+    let userId = crypto.randomUUID();
+    users.push({id: userId, username, password });
     localStorage.setItem('users', JSON.stringify(users));
     alert('Registration successful!');
     registrationContainer.classList.add('hidden');
     loginContainer.classList.remove('hidden');
+
+    currentUser = { id: userId, username, password };
+    console.log(currentUser);
   } else {
     alert('Please enter a username and password.');
   }
@@ -73,7 +76,18 @@ loginForm.addEventListener('submit', async (event) => {
     quoteText.innerText = `${quote[0].content} 
     - ${quote[0].author}`;
     document.body.append(quoteText);
-    console.log(quote);
+
+    // Retrieve the userId from the user object
+    let userId = user.id;
+
+    // After successful login
+    let todoListButton = document.createElement('button');
+    todoListButton.textContent = 'Go to Todo List';
+    todoListButton.addEventListener('click', () => {
+        localStorage.setItem('userId', userId); 
+        window.location.href = 'todo.html'; 
+    });
+    document.body.appendChild(todoListButton);
   } else {
     alert('Incorrect username or password.');
   }
@@ -81,3 +95,4 @@ loginForm.addEventListener('submit', async (event) => {
   document.getElementById('loginUsername').value = ''; 
   document.getElementById('loginPassword').value = ''; 
 });
+

@@ -36,7 +36,7 @@
             />
           </div>
           <div class="choice-inputs">
-            <select name="" id="category">
+            <select name="" id="category" required>
               <option value="" selected hidden disabled>Select Category</option>
               <option value="work">Work</option>
               <option value="school">School</option>
@@ -65,7 +65,7 @@
         <div class="filter-inputs">
           <select name="" id="filter-status">
             <option value="" selected hidden disabled>Filter by status</option>
-            <option value="">All</option>
+            <option>All</option>
             <option value="false">Unfinished</option>
             <option value="true">Completed</option>
           </select>
@@ -82,9 +82,13 @@
           <input type="checkbox" value="recreation" id="recreation" />
           <label for="recreation">Recreation</label>
         </div>
-        <button id="renderListButton">Refresh List</button>
-        <button id="sort-deadline">Sort by deadline</button>
-        <button id="sort-time">Sort by time to complete</button>
+        <div id="button-div">
+          <button id="renderListButton">Refresh List</button>
+          <div id="sort-button-div">
+            <button id="sort-deadline">Sort by deadline</button>
+            <button id="sort-time">Sort by time to complete</button>
+          </div>
+        </div>
         <div id="container"></div>
       </div>
     </div>

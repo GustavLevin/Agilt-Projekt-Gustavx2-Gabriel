@@ -18,9 +18,6 @@ const sortByTimeButton = document.querySelector("#sort-time");
 //Riktning för sortering(ascending/descending)
 let descending = true;
 
-
-
-
 //Funktioner
 
 //Funktion för att hämta värden från input
@@ -53,15 +50,6 @@ const addTodoFunction = () => {
   todoList.push(todo);
   //Uppdatera localStorage
   localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
-};
-
-//Funktion för att filtrera todo lista
-const getFilteredTodoList = (filters) => {
-  const filteredTodoList = todoList.filter((todo) => {
-    return filters.includes(todo.category);
-  });
-
-  return filteredTodoList;
 };
 
 //Funktion för att lägga till 'option' i 'select'
@@ -99,11 +87,9 @@ const createInputsWithClassNames = (todo) => {
 
   const expirationDateInput = document.createElement("input");
   expirationDateInput.setAttribute("type", "date");
-  expirationDateInput.required = true;
   expirationDateInput.classList.add("expirationDateInput");
 
   const timeToCompleteInput = document.createElement("select");
-  timeToCompleteInput.required = true;
   timeToCompleteInput.classList.add("timeToCompleteInput");
   //Select options för timeToCompleteInput
   const time1 = document.createElement("option");
@@ -162,6 +148,11 @@ const saveEditedValues = (todo) => {
   localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
 };
 
+const isFiltersApplied = (filters) => {
+  if (!filters) return false;
+  return filters.categories.length > 0 || filters.isCompleted !== undefined;
+};
+
 //Funktion för att skriva ut todo's
 const renderTodoList = (filters) => {
   container.innerHTML = "";
@@ -169,8 +160,9 @@ const renderTodoList = (filters) => {
   container.append(ul);
 
   //Om det finns todo's i filtrerade array, skriv ut. Annars skriv ut hela todo
-  const todoListToRender =
-    filters && filters.length > 0 ? getFilteredTodoList(filters) : todoList;
+  const todoListToRender = isFiltersApplied(filters)
+    ? getFilteredTodoList(filters)
+    : todoList;
 
   //forEach- loop för att skriva ut todos
   todoListToRender.forEach((todo, index) => {
@@ -198,19 +190,20 @@ const renderTodoList = (filters) => {
       li.append(form);
 
       ul.append(li);
+
       //Annars skriv ut information
     } else {
-      li.innerText = `Activity: ${todo.activity} Description: ${
-        todo.description
-      } 
+      li.innerText = `Activity: ${todo.activity} 
+      Description: ${todo.description} 
       Category: ${todo.category} 
-      Deadline: ${todo.expirationDate} Time to complete: ${todo.timeToComplete} 
+      Deadline: ${todo.expirationDate} 
+      Time to complete: ${todo.timeToComplete} 
       ${todo.isCompleted ? "Completed" : "Unfinished"}`;
       li.dataset.id = todo.id;
       ul.append(li);
       //Om todo 'isCompleted' = true, färga todo grön
       if (todo.isCompleted) {
-        li.style.backgroundColor = "green";
+        li.style.backgroundColor = "rgb(30, 238, 148)";
       }
     }
 
@@ -218,10 +211,13 @@ const renderTodoList = (filters) => {
     const buttonDiv = document.createElement("div");
     const completedBtn = document.createElement("button");
     completedBtn.innerText = "Completed";
+    completedBtn.classList.add("completed-btn");
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Remove Item";
+    deleteBtn.classList.add("delete-btn");
     const editBtn = document.createElement("button");
     editBtn.innerText = todo.isEditing ? "Save" : "Edit";
+    editBtn.classList.add("edit-btn");
     //Om 'isEditing' = true, 'Edit' knapp blir 'submit/save'
     if (todo.isEditing) {
       editBtn.setAttribute("type", "submit");
@@ -235,9 +231,16 @@ const renderTodoList = (filters) => {
     //Sätter 'isCompleted' = true
     completedBtn.addEventListener("click", () => {
       todo.isCompleted = true;
-
+      li.innerText = `Activity: ${todo.activity} 
+      Description: ${todo.description} 
+      Category: ${todo.category} 
+      Deadline: ${todo.expirationDate} 
+      Time to complete: ${todo.timeToComplete} 
+      ${todo.isCompleted ? "Completed" : "Unfinished"}`;
+      li.append(buttonDiv);
+      buttonDiv.append(completedBtn, deleteBtn, editBtn);
       if (todo.isCompleted) {
-        li.style.backgroundColor = "green";
+        li.style.backgroundColor = "rgb(30, 238, 148)";
       }
 
       localStorage.setItem(`todoList_${userId}`, JSON.stringify(todoList));
@@ -291,16 +294,46 @@ const sortByTimeToComplete = (array) => {
   }
 };
 
-//Filtrerar todo's
+//Funktion för att filtrera todo lista
+const getFilteredTodoList = (filters) => {
+  console.log(filters);
+  const filteredTodoList = todoList.filter((todo) => {
+    if (
+      filters.categories.includes(todo.category) &&
+      (todo.isCompleted === filters.isCompleted ||
+        filters.isCompleted === undefined)
+    ) {
+      return true;
+    }
+    return false;
+  });
+  console.log("hej", filteredTodoList);
+  return filteredTodoList;
+};
+
+//Hämtar filtervärden
 const getFilterValues = () => {
   let filterCategories = document.querySelectorAll(
     "input[type='checkbox']:checked"
   );
-  let filterValues = [];
-  for (let i = 0; i < filterCategories.length; i++) {
-    filterValues.push(filterCategories[i].value);
-  }
 
+  let filterStatus = document.querySelector("#filter-status")?.value;
+  //Om filterStatus har värdet "true" : "false"
+  filterStatus =
+    filterStatus === "true"
+      ? true
+      : filterStatus === "false"
+      ? false
+      : undefined;
+  let filterValues = {
+    categories: [],
+    isCompleted: filterStatus,
+  };
+
+  for (let i = 0; i < filterCategories.length; i++) {
+    filterValues.categories.push(filterCategories[i].value);
+  }
+  console.log(filterValues);
   return filterValues;
 };
 
@@ -309,10 +342,10 @@ addTodoBtn.addEventListener("click", () => {
   renderTodoList();
 });
 renderListButton.addEventListener("click", () => {
-  sortByTimeToComplete(todoList);
-
   const filters = getFilterValues();
   renderTodoList(filters);
+
+  console.log(filters);
 });
 sortByDeadlineButton.addEventListener("click", () => {
   sortByExpirationDate(todoList);

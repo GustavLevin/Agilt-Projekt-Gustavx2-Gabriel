@@ -19,13 +19,16 @@
     <script src="main.js" defer></script>
   </head>
   <body>
+    <header>
+      <div id="header">
+        <button id="logoutButton">Log out</button>
+      </div>
+    </header>
     <!-- App Wrapper -->
     <main class="app">
       <!-- Greeting -->
       <section class="greeting">
-        <h2 class="title">
-          What's up, <input type="text" id="name" placeholder="Name here" />
-        </h2>
+        <h2 class="title"></h2>
       </section>
       <!-- End of Greeting -->
 
@@ -83,12 +86,6 @@
       <section class="sort-options">
         <button class="sort-priority">Sort by priority</button>
         <button class="sort-streak">Sort by streak</button>
-        <select class="filter-habits">
-          <option value="all">All</option>
-          <option value="priority1">Low</option>
-          <option value="priority2">Medium</option>
-          <option value="priority3">High</option>
-        </select>
       </section>
       <!-- End of Sort Options -->
       <!-- Habit List -->

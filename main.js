@@ -9,14 +9,38 @@
   habits = JSON.parse(localStorage.getItem(`habits_${userId}`)) || [];
 window.addEventListener("load", () => {
 
-  
-  // habits = JSON.parse(localStorage.getItem(`habits_${userId}`)) || [];
+  let user = JSON.parse(localStorage.getItem("users"));
+  let h2 = document.querySelector(".title");
+  h2.innerText = `Hello ${user[0].username}`;
 
-  // kod till namn
-  nameInput.value = username;
-  nameInput.addEventListener("change", (e) => {
-    localStorage.setItem("username", e.target.value);
+  let header = document.querySelector("#header");
+  let todoBtn = document.createElement("button");
+  todoBtn.textContent = "Todo";
+  header.append(todoBtn);
+
+  let logoutButton = document.querySelector("#logoutButton");
+
+  let weatherBtn = document.createElement("button");
+  weatherBtn.textContent = "Weather"; 
+  header.append(weatherBtn);
+
+  weatherBtn.addEventListener("click" ,() => {
+    window.location.href = 'weather.html'
+});
+
+
+
+  logoutButton.addEventListener("click" , ()=> {
+    window.location.href = 'index.html';
   });
+
+  todoBtn.addEventListener("click" , ()=> {
+    window.location.href = 'todo.html';
+  });
+  
+
+
+  
   // sumbit / create habit knapp lite kod och local storage
   newHabitForm.addEventListener("submit", (e) => {
     e.preventDefault();

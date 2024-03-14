@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  header {
+    background-color: #007bff;
+    padding: 20px;
+    text-align: right;
+  }
+  
+  #header button {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    margin-right: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #header button:hover {
+    background-color: #c82333;
+  }
+  
+  #welcomeMessage {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  #todoOrHabits {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .todoBtn,
+  .habitBtn {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .todoBtn:hover,
+  .habitBtn:hover {
+    background-color: #218838;
+  }
+  

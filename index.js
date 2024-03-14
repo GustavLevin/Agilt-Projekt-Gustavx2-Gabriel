@@ -1,29 +1,19 @@
-// Importera funktionen getData för att hämta data från en URL
-let getData = async (URL) => {
-    let response = await fetch(URL);
-    let json = await response.json();
-    return json;
- }
- 
+let h2 = document.getElementById('h2');
 let registerButton = document.getElementById('registerButton');
 let loginButton = document.getElementById('loginButton');
 let choiceContainer = document.getElementById('choiceContainer');
 let registrationContainer = document.getElementById('registrationContainer');
 let loginContainer = document.getElementById('loginContainer');
-let logoutButton = document.getElementById('logoutButton');
-let welcomeMessage = document.getElementById('welcomeMessage');
 let loginForm = document.getElementById('loginForm');
 let registrationForm = document.getElementById('registrationForm');
 
+
 registerButton.addEventListener('click', () => {
-  // Döljer alternativen och visar registeringsformuläret
-  choiceContainer.classList.add('hidden');
   registrationContainer.classList.remove('hidden');
   loginContainer.classList.add('hidden');
 });
 
 loginButton.addEventListener('click', () => {
-  choiceContainer.classList.add('hidden');
   loginContainer.classList.remove('hidden');
   registrationContainer.classList.add('hidden');
 });
@@ -68,37 +58,10 @@ loginForm.addEventListener('submit', async (event) => {
   let user = users.find(user => user.username === loginUsername && user.password === loginPassword);
 
   if (user) {
-    welcomeMessage.textContent = `Hello ${user.username}`;
-    loginContainer.classList.add('hidden');
-    logoutButton.classList.remove('hidden');
-    let quote = await getData("https://api.quotable.io/quotes/random");
-    let quoteText = document.createElement("p");
-    quoteText.innerText = `${quote[0].content} 
-    - ${quote[0].author}`;
-    document.body.append(quoteText);
+    
+    window.location.href = 'start.html';
 
-    // Retrieve the userId from the user object
-    let userId = user.id;
-
-    // After successful login
-    let todoListButton = document.createElement('button');
-    todoListButton.textContent = 'Go to Todo List';
-    todoListButton.addEventListener('click', () => {
-        localStorage.setItem('userId', userId); 
-        window.location.href = 'todo.html'; 
-    });
-    let habitsButton = document.createElement('button');
-    habitsButton.textContent = 'Go to Todo List';
-    habitsButton.addEventListener('click', () => {
-        localStorage.setItem('userId', userId); 
-        window.location.href = 'Gabriel/index-3.html'; 
-    });
-    document.body.appendChild(todoListButton);
-    document.body.appendChild(habitsButton);
-    registerButton.classList.add('hidden');
-    loginButton.classList.add('hidden');
-    registrationContainer.classList.add('hidden');
-    loginContainer.classList.add('hidden');
+   
   } else {
     alert('Incorrect username or password.');
   }
@@ -106,4 +69,5 @@ loginForm.addEventListener('submit', async (event) => {
   document.getElementById('loginUsername').value = ''; 
   document.getElementById('loginPassword').value = ''; 
 });
+
 

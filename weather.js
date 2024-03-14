@@ -6,6 +6,7 @@ const apiUrl =
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
+const returnBtn = document.querySelector(".returnBtn");
 // här skapar jag en async function för att hämta datan från api
 async function checkWeather(city) {
   const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
@@ -42,6 +43,10 @@ async function checkWeather(city) {
   }
 }
 // här lägger jag till en eventlistener på min knapp
+
+returnBtn.addEventListener("click", () => {
+  history.back();
+});
 
 searchBtn.addEventListener("click", () => {
   checkWeather(searchBox.value);
